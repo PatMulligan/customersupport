@@ -114,7 +114,7 @@ const merchant = async () => {
               await LNbits.api.request(
                 'DELETE',
                 '/customersupport/api/v1/merchant/' + this.merchantId,
-                this.adminkey
+                this.g.user.wallets[0].adminkey,
               )
               this.$emit('merchant-deleted', this.merchantId)
               this.$q.notify({
