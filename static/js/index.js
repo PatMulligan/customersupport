@@ -109,6 +109,24 @@ const merchant = async () => {
         this.activeChatCustomer = ''
         this.showKeys = false
       },
+      deleteMerchant: async function () {
+            try {
+              await LNbits.api.request(
+                'DELETE',
+                '/customersupport/api/v1/merchant/' + this.merchantId,
+                this.adminkey
+              )
+              this.$emit('merchant-deleted', this.merchantId)
+              this.$q.notify({
+                type: 'positive',
+                message: 'Merchant Deleted',
+                timeout: 5000
+              })
+            } catch (error) {
+              console.warn(error)
+              LNbits.utils.notifyApiError(error)
+            }
+      },
       createMerchant: async function (privateKey) {
         try {
           const pubkey = nostr.getPublicKey(privateKey)
@@ -228,6 +246,8 @@ const merchant = async () => {
       }
     },
     created: async function () {
+      await this.getMerchant()
+      await this.deleteMerchant()
       await this.generateKeys()
       setInterval(async () => {
         if (!this.wsConnection || this.wsConnection.readyState !== WebSocket.OPEN) {
