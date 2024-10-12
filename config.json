@@ -1,22 +1,12 @@
 {
-  "name": "Nostr Market",
-  "short_description": "Nostr Webshop/market on LNbits",
+  "name": "Customer Support",
+  "short_description": "Customer Support with anonymous nostr throwaway nsecs",
   "tile": "/customersupport/static/images/bitcoin-shop.png",
   "min_lnbits_version": "0.12.6",
   "contributors": [
     {
-      "name": "motorina0",
-      "uri": "https://github.com/motorina0",
-      "role": "Contributor"
-    },
-    {
       "name": "benarc",
       "uri": "https://github.com/benarc",
-      "role": "Developer"
-    },
-    {
-      "name": "talvasconcelos",
-      "uri": "https://github.com/talvasconcelos",
       "role": "Developer"
     }
   ],
