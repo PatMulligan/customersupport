@@ -1,21 +1,17 @@
 import asyncio
 
 from fastapi import APIRouter
-from lnbits.db import Database
-from lnbits.tasks import create_permanent_unique_task
 from loguru import logger
 
-from .tasks import wait_for_paid_invoices
-from .views import customersupport_ext_generic
-from .views_api import customersupport_ext_api
+from lnbits.db import Database
+from lnbits.helpers import template_renderer
+from lnbits.tasks import create_permanent_unique_task
+
+from .nostr.nostr_client import NostrClient
 
 db = Database("ext_customersupport")
 
-scheduled_tasks: list[asyncio.Task] = []
-
 customersupport_ext: APIRouter = APIRouter(prefix="/customersupport", tags=["customersupport"])
-customersupport_ext.include_router(customersupport_ext_generic)
-customersupport_ext.include_router(customersupport_ext_api)
 
 customersupport_static_files = [
     {
@@ -25,16 +21,43 @@ customersupport_static_files = [
 ]
 
 
-def customersupport_stop():
+def customersupport_renderer():
+    return template_renderer(["customersupport/templates"])
+
+nostr_client: NostrClient = NostrClient()
+
+
+from .tasks import wait_for_nostr_events, wait_for_paid_invoices
+from .views import *  # noqa
+from .views_api import *  # noqa
+
+
+scheduled_tasks: list[asyncio.Task] = []
+
+
+async def customersupport_stop():
     for task in scheduled_tasks:
         try:
             task.cancel()
         except Exception as ex:
             logger.warning(ex)
 
+    await nostr_client.stop()
+
 
 def customersupport_start():
-    # ignore will be removed in lnbits `0.12.6`
-    # https://github.com/lnbits/lnbits/pull/2417
-    task = create_permanent_unique_task("ext_testing", wait_for_paid_invoices)  # type: ignore
-    scheduled_tasks.append(task)
+
+    async def _subscribe_to_nostr_client():
+        # wait for 'nostrclient' extension to initialize
+        await asyncio.sleep(10)
+        await nostr_client.run_forever()
+
+    async def _wait_for_nostr_events():
+        # wait for this extension to initialize
+        await asyncio.sleep(15)
+        await wait_for_nostr_events(nostr_client)
+
+    task1 = create_permanent_unique_task("ext_customersupport_paid_invoices", wait_for_paid_invoices)
+    task2 = create_permanent_unique_task("ext_customersupport_subscribe_to_nostr_client", _subscribe_to_nostr_client)
+    task3 = create_permanent_unique_task("ext_customersupport_wait_for_events", _wait_for_nostr_events)
+    scheduled_tasks.extend([task1, task2, task3])

@@ -69,7 +69,7 @@ async function directMessages(path) {
         try {
           const { data } = await LNbits.api.request(
             'GET',
-            '/nostrmarket/api/v1/message/' + pubkey,
+            '/customersupport/api/v1/message/' + pubkey,
             this.inkey
           )
           this.messages = data
@@ -83,7 +83,7 @@ async function directMessages(path) {
         try {
           const { data } = await LNbits.api.request(
             'GET',
-            '/nostrmarket/api/v1/customer',
+            '/customersupport/api/v1/customer',
             this.inkey
           )
           this.customers = data
@@ -93,11 +93,12 @@ async function directMessages(path) {
         }
       },
 
+      // 1) vue method -> views_api 1014
       sendDirectMesage: async function () {
         try {
           const { data } = await LNbits.api.request(
             'POST',
-            '/nostrmarket/api/v1/message',
+            '/customersupport/api/v1/message',
             this.adminkey,
             {
               message: this.newMessage,
@@ -115,7 +116,7 @@ async function directMessages(path) {
         try {
           const { data } = await LNbits.api.request(
             'POST',
-            '/nostrmarket/api/v1/customer',
+            '/customersupport/api/v1/customer',
             this.adminkey,
             {
               public_key: this.newPublicKey,

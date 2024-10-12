@@ -1,17 +1,22 @@
-# tasks.py is for asynchronous when invoices get paid
-
-# add your dependencies here
-
+from asyncio import Queue
 import asyncio
+
+from loguru import logger
 
 from lnbits.core.models import Payment
 from lnbits.tasks import register_invoice_listener
-from loguru import logger
+
+from .nostr.nostr_client import NostrClient
+from .services import (
+    handle_order_paid,
+    process_nostr_message,
+    subscribe_to_all_merchants,
+)
 
 
 async def wait_for_paid_invoices():
-    invoice_queue = asyncio.Queue()
-    register_invoice_listener(invoice_queue, "customersupport")
+    invoice_queue = Queue()
+    register_invoice_listener(invoice_queue)
 
     while True:
         payment = await invoice_queue.get()
@@ -19,7 +24,25 @@ async def wait_for_paid_invoices():
 
 
 async def on_invoice_paid(payment: Payment) -> None:
-    if (
-        payment.extra.get("tag") == "customersupport"
-    ):  # Will grab any payment with the tag "customersupport"
-        logger.debug(payment)
+    if payment.extra.get("tag") != "customersupport":
+        return
+
+    order_id = payment.extra.get("order_id")
+    merchant_pubkey = payment.extra.get("merchant_pubkey")
+    if not order_id or not merchant_pubkey:
+        return None
+
+    await handle_order_paid(order_id, merchant_pubkey)
+
+
+async def wait_for_nostr_events(nostr_client: NostrClient):
+    while True:
+        try:
+            await subscribe_to_all_merchants()
+
+            while True:
+                message = await nostr_client.get_event()
+                await process_nostr_message(message)
+        except Exception as e:
+            logger.warning(f"Subcription failed. Will retry in one minute: {e}")
+            await asyncio.sleep(10)

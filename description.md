@@ -1,9 +1,12 @@
-An easily clonable extension that can be used a base for building a new extension.
+> IMPORTANT: Nostr market needs the nostr-client extension installed.
 
-THe usual development enviroment is:
+Buy and sell things over Nostr, using NIP15 https://github.com/nostr-protocol/nips/blob/master/15.md
 
-- Clone the myextension repo to your own repo
-- Edit the cloned repos manifest to your details
-- Install into LNbits
-- Delete the cloned extensions folder in your LNbits install
-- Create a symbolic link to the extensions folder, from the where you have pulled your extension `ln -s /where/you/cloned/myextension /your/lnbits/installl/lnbits/lnbits/extensions/`
+Nostr was partly based on the the previous version of this extension "Diagon Alley", so lends itself very well to buying and sellinng over Nostr.
+
+The Nostr Market extension includes:
+* A merchant client to manage products, sales and communication with customers. 
+* A customer client to find and order products from merchants, communicate with merchants and track status of ordered products.
+
+All communication happens over NIP04 encrypted DMs.
+
