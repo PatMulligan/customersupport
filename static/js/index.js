@@ -228,7 +228,7 @@ const merchant = async () => {
       }
     },
     created: async function () {
-      await this.createMerchant()
+      await this.generateKeys()
       setInterval(async () => {
         if (!this.wsConnection || this.wsConnection.readyState !== WebSocket.OPEN) {
           await this.waitForNotifications()
