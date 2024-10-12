@@ -6,28 +6,16 @@
   "donate": "donate@legend.lnbits.com",
   "contributors": [
     {
-      "name": "Ben Arc",
-      "uri": "mailto:ben@lnbits.com",
-      "role": "Developer"
-    },
-    {
-      "name": "DNI",
-      "uri": "https://github.com/dni",
+      "name": "Pat Mulligan",
+      "uri": "mailto:patjmulligan@atitlan.io",
       "role": "Developer"
     }
   ],
   "images": [
     {
-      "uri": "https://raw.githubusercontent.com/lnbits/customersupport/main/static/1.png"
-    },
-    {
-      "uri": "https://raw.githubusercontent.com/lnbits/customersupport/main/static/2.png"
-    },
-    {
-      "uri": "https://raw.githubusercontent.com/lnbits/customersupport/main/static/3.png"
-    }
-  ],
-  "description_md": "https://raw.githubusercontent.com/lnbits/customersupport/main/description.md",
-  "terms_and_conditions_md": "https://raw.githubusercontent.com/lnbits/customersupport/main/toc.md",
+      "uri": "https://raw.githubusercontent.com/PatMulligan/customersupport/main/static/1.png"
+    }  ],
+  "description_md": "https://raw.githubusercontent.com/PatMulligan/customersupport/main/description.md",
+  "terms_and_conditions_md": "https://raw.githubusercontent.com/PatMulligan/customersupport/main/toc.md",
   "license": "MIT"
 }
