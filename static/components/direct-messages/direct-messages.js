@@ -124,8 +124,8 @@ async function directMessages(path) {
               unread_messages: 0
             }
           )
-          this.newPublicKey = null
-          this.activePublicKey = data.public_key
+          this.newPublicKey = null // reset
+          this.activePublicKey = data.public_key // some kind of redundancy it seems
           await this.selectActiveCustomer()
         } catch (error) {
           LNbits.utils.notifyApiError(error)
@@ -169,6 +169,10 @@ async function directMessages(path) {
     created: async function () {
       await this.getCustomers()
       this.getCustomersDebounced = _.debounce(this.getCustomers, 2000, false)
+      this.newPublicKey="ffcb87baede7afc5f43aa5b27453b4b2168dfb96ebfe963ce5704426e97817f1"
+      await this.addPublicKey()
+      this.activePublicKey="ffcb87baede7afc5f43aa5b27453b4b2168dfb96ebfe963ce5704426e97817f1"
+      await this.selectActiveCustomer()
     }
   })
 }
