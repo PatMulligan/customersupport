@@ -1,6 +1,6 @@
 {
-  "name": "Build your own!",
-  "short_description": "Extension building guide",
+  "name": "Nostr Customer Support",
+  "short_description": "Let your customers communicate with you using throw-away nostr ID's",
   "tile": "https://raw.githubusercontent.com/lnbits/customersupport/main/static/bitcoin-extension.png",
   "min_lnbits_version": "0.12.6",
   "donate": "donate@legend.lnbits.com",
