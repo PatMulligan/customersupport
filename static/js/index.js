@@ -18,7 +18,7 @@ const merchant = async () => {
     mixins: [windowMixin],
     data: function () {
       return {
-        merchant: {},
+        merchant: null,
         shippingZones: [],
         activeChatCustomer: '',
         orderPubkey: null,
