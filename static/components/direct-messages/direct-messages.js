@@ -74,7 +74,7 @@ async function directMessages(path) {
           )
           this.messages = data
 
-          this.focusOnChatBox(this.messages.length - 1)
+          // this.focusOnChatBox(this.messages.length - 1)
         } catch (error) {
           LNbits.utils.notifyApiError(error)
         }
@@ -107,7 +107,7 @@ async function directMessages(path) {
           )
           this.messages = this.messages.concat([data])
           this.newMessage = ''
-          this.focusOnChatBox(this.messages.length - 1)
+          // this.focusOnChatBox(this.messages.length - 1)
         } catch (error) {
           LNbits.utils.notifyApiError(error)
         }
@@ -136,7 +136,7 @@ async function directMessages(path) {
       handleNewMessage: async function (data) {
         if (data.customerPubkey === this.activePublicKey) {
           this.messages.push(data.dm)
-          this.focusOnChatBox(this.messages.length - 1)
+          // this.focusOnChatBox(this.messages.length - 1)
           // focus back on input box
         }
         this.getCustomersDebounced()
