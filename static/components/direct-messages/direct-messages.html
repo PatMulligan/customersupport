@@ -8,32 +8,10 @@
         <div class="col-4">
           <q-badge v-if="unreadMessages" color="primary" outline><span v-text="unreadMessages"></span>&nbsp; new</q-badge>
         </div>
-        <div class="col-6">
-          <q-btn v-if="activePublicKey" @click="showClientOrders" unelevated outline class="float-right">Client
-            Orders</q-btn>
-        </div>
       </div>
     </q-card-section>
     <q-card-section class="q-pa-none">
       <q-separator></q-separator>
-    </q-card-section>
-    <q-card-section>
-      <div class="row">
-        <div class="col-10">
-          <q-select v-model="activePublicKey"
-            :options="customers.map(c => ({label: buildCustomerLabel(c), value: c.public_key}))" label="Select Customer"
-            emit-value @input="selectActiveCustomer()">
-          </q-select>
-        </div>
-        <div class="col-2">
-          <q-btn label="Add" color="primary" class="float-right q-mt-md" @click="showAddPublicKey = true">
-            <q-tooltip>
-              Add a public key to chat with
-            </q-tooltip>
-          </q-btn>
-        </div>
-      </div>
-
     </q-card-section>
     <q-card-section>
       <div class="chat-container" ref="chatCard">
