@@ -116,7 +116,7 @@ const merchant = async () => {
                 '/customersupport/api/v1/merchant/' + this.merchant.id,
                 this.g.user.wallets[0].adminkey,
               )
-              this.$emit('merchant-deleted', this.merchantId)
+              this.handleMerchantDeleted()
               this.$q.notify({
                 type: 'positive',
                 message: 'Merchant Deleted',
@@ -189,7 +189,7 @@ const merchant = async () => {
                 type: 'positive',
                 message: 'New Order'
               })
-              
+
               await this.$refs.directMessagesRef.handleNewMessage(data)
               return
             }
