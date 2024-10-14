@@ -15,24 +15,24 @@
                 @merchant-deleted="handleMerchantDeleted"
               ></merchant-details>
             </div>
-            <div class="col-6">
-              <q-toggle
-              @input="toggleMerchantState()"
-              size="md"
-              checked-icon="check"
-              v-model="merchant.config.active"
-              color="primary"
-              unchecked-icon="clear"
-              class="float-left"
-            /> <span v-text="merchant.config.active ? 'Accepting Orders': 'Orders Paused'"></span>
-            </div>
-            <div class="col-2">
-              <shipping-zones
-                :inkey="g.user.wallets[0].inkey"
-                :adminkey="g.user.wallets[0].adminkey"
-                class="float-right"
-              ></shipping-zones>
-            </div>
+            <!-- <div class="col-6"> -->
+            <!--   <q-toggle -->
+            <!--   @input="toggleMerchantState()" -->
+            <!--   size="md" -->
+            <!--   checked-icon="check" -->
+            <!--   v-model="merchant.config.active" -->
+            <!--   color="primary" -->
+            <!--   unchecked-icon="clear" -->
+            <!--   class="float-left" -->
+            <!-- /> <span v-text="merchant.config.active ? 'Accepting Orders': 'Orders Paused'"></span> -->
+            <!-- </div> -->
+            <!-- <div class="col-2"> -->
+            <!--   <shipping-zones -->
+            <!--     :inkey="g.user.wallets[0].inkey" -->
+            <!--     :adminkey="g.user.wallets[0].adminkey" -->
+            <!--     class="float-right" -->
+            <!--   ></shipping-zones> -->
+            <!-- </div> -->
           </div>
         </q-card-section>
         <q-card-section v-if="showKeys">
@@ -59,31 +59,43 @@
           </div>
         </q-card-section>
       </q-card>
-      <q-card class="q-mt-lg">
-        <q-card-section>
-          <stall-list
-            :adminkey="g.user.wallets[0].adminkey"
-            :inkey="g.user.wallets[0].inkey"
-            :wallet-options="g.user.walletOptions"
-            @customer-selected-for-order="customerSelectedForOrder"
-          ></stall-list>
-        </q-card-section>
-      </q-card>
-      <q-card class="q-mt-lg">
-        <q-card-section>
-          <div class="row">
-            <div class="col-12">
-              <order-list
-                ref="orderListRef"
-                :adminkey="g.user.wallets[0].adminkey"
-                :inkey="g.user.wallets[0].inkey"
-                :customer-pubkey-filter="orderPubkey"
-                @customer-selected="customerSelectedForOrder"
-              ></order-list>
-            </div>
-          </div>
-        </q-card-section>
-      </q-card>
+    <div v-if="merchant && merchant.id" class="col-12">
+      <direct-messages
+        ref="directMessagesRef"
+        :inkey="g.user.wallets[0].inkey"
+        :adminkey="g.user.wallets[0].adminkey"
+        :active-chat-customer="activeChatCustomer"
+        :merchant-id="merchant.id"
+        @customer-selected="filterOrdersForCustomer"
+        @order-selected="showOrderDetails"
+      >
+      </direct-messages>
+    </div>
+      <!-- <q-card class="q-mt-lg"> -->
+      <!--   <q-card-section> -->
+      <!--     <stall-list -->
+      <!--       :adminkey="g.user.wallets[0].adminkey" -->
+      <!--       :inkey="g.user.wallets[0].inkey" -->
+      <!--       :wallet-options="g.user.walletOptions" -->
+      <!--       @customer-selected-for-order="customerSelectedForOrder" -->
+      <!--     ></stall-list> -->
+      <!--   </q-card-section> -->
+      <!-- </q-card> -->
+      <!-- <q-card class="q-mt-lg"> -->
+      <!--   <q-card-section> -->
+      <!--     <div class="row"> -->
+      <!--       <div class="col-12"> -->
+      <!--         <order-list -->
+      <!--           ref="orderListRef" -->
+      <!--           :adminkey="g.user.wallets[0].adminkey" -->
+      <!--           :inkey="g.user.wallets[0].inkey" -->
+      <!--           :customer-pubkey-filter="orderPubkey" -->
+      <!--           @customer-selected="customerSelectedForOrder" -->
+      <!--         ></order-list> -->
+      <!--       </div> -->
+      <!--     </div> -->
+      <!--   </q-card-section> -->
+      <!-- </q-card> -->
     </div>
     <q-card v-else>
       <q-card-section>
@@ -171,18 +183,6 @@
           <q-list> {% include "customersupport/_api_docs.html" %} </q-list>
         </q-card-section>
       </q-card>
-    </div>
-    <div v-if="merchant && merchant.id" class="col-12">
-      <direct-messages
-        ref="directMessagesRef"
-        :inkey="g.user.wallets[0].inkey"
-        :adminkey="g.user.wallets[0].adminkey"
-        :active-chat-customer="activeChatCustomer"
-        :merchant-id="merchant.id"
-        @customer-selected="filterOrdersForCustomer"
-        @order-selected="showOrderDetails"
-      >
-      </direct-messages>
     </div>
   </div>
 
